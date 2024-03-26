@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from API_Retencion import (Clientes_por_Mes, Mes_mayorClientes, Mes_mayor_abandono, 
-                           Porcentaje_Retencion_Abandono, Mes_Mayor_Porcentaje_Retencion,
+                           Mes_Mayor_Porcentaje_Retencion,
                            Mes_Mayor_Porcentaje_Abandono, Mes_Mayor_Porcentaje_Retencion_Total)
 
 app_retencion = FastAPI()
