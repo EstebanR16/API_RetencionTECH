@@ -8,7 +8,7 @@ Se determinará el destino de una ronda de inversion, midiendo a traves del tiem
 Decidir si la inversión recibida será usada en “mejorar el producto” o usada para “expandirse consiguiendo más clientes”. Para lograr el objetivo tenemos que analizar si el producto que se ofrece ha alcanzado el Product-Market Fit por medio de un análisis de retención a través del tiempo (cohort).
 
 > [!Note]
-> Un cohort es un grupo de personas que comparten características en común durante un periodo específico (por ejemplo, usuarios que visitaron tu sitio web por primera vez, quienes descargaron una aplicación, etc). Una clasificación típica y la que utilizarás en este proyecto es agrupar a usuarios por fecha de registro o fecha en la que usaron por primera vez tu producto. Esto es útil porque luego puedes medir la retención como el porcentaje de usuarios de cada grupo que sigue usando tu producto en el tiempo (por ejemplo, al cabo de 90 días).
+> Un cohort es un grupo de personas que comparten características en común durante un periodo específico (por ejemplo, usuarios que visitaron tu sitio web por primera vez, quienes descargaron una aplicación, etc). Una clasificación típica es agrupar a usuarios por fecha de registro o fecha en la que usaron por primera vez tu producto. Esto es útil porque luego puedes medir la retención como el porcentaje de usuarios de cada grupo que sigue usando tu producto en el tiempo (por ejemplo, al cabo de 90 días).
 
 ### ¿Que nos facilita a responder esta API para la toma de decisiones?
 
@@ -279,7 +279,10 @@ Asegúrate de que tu repositorio esté alojado en GitHub y de que hayas realizad
         git branch -M main
         git push -u origin main
 
->[!Note] Para este caso el comando comoleto sería:
+
+> [!Note]
+> Para este caso el comando comoleto sería:
+> 
 >       git remote add origin https://github.com/EstebanR16/API_RetencionTech.git
 
 Posteriormente, cada que se realice un cambio en los archivos locales se debe realizar una actualización en el repositorio remoto, así: 
@@ -296,6 +299,12 @@ Posteriormente, cada que se realice un cambio en los archivos locales se debe re
 
         git push
 
+> [!Note]
+> Cada que se realice un cambio, sobre todo en la lógica o archivo ***main.py***, se recomienda cargar de nuevo los requerimientos (Tambien si se instala una nueva libreria en el VENV)
+>
+>     pip freeze > requirements.txt
+>   Nota:
+>   Recuerda que se debe realizar en el ***entorno virtual activado***
 
 ## 6.- Render
 
@@ -323,7 +332,7 @@ El resto de los campos se deben llenar con la misma información que en la image
 
 Esto podría ser algo así como:
 
-        uvicorn main:app --host 0.0.0.0 --port 1000
+    uvicorn main:app_retencion --host 0.0.0.0 --port $PORT
 
 Seleccionar la opción Create Web Service
 
