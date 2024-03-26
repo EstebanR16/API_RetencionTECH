@@ -267,9 +267,8 @@ Realizar una configuración cuando es la primera vez que se hace el commit.
 
         git config --global user.email "est1696@hotmail.com"
 
-        git config --global user.email "EstebanR16"
+        git config --global user.name "EstebanR16"
 
-        git remote add origin https://github.com/EstebanR16/API_RetencionTech.git
 
         
 ## 5.- GitHub
@@ -279,6 +278,25 @@ Asegúrate de que tu repositorio esté alojado en GitHub y de que hayas realizad
         git remote add origin URL_DEL_REPO
         git branch -M main
         git push -u origin main
+
+>[!Note] Para este caso el comando comoleto sería:
+>       git remote add origin https://github.com/EstebanR16/API_RetencionTech.git
+
+Posteriormente, cada que se realice un cambio en los archivos locales se debe realizar una actualización en el repositorio remoto, así: 
+
+1) Verificar el estado de tu repositorio local:
+
+        git status
+
+2) Agregar y hacer commit de los cambios locales:
+
+        git add .
+        git commit -m "Mensaje descriptivo de tus cambios"
+3) Realizar el push de los cambios:
+
+        git push
+
+
 ## 6.- Render
 
 ### 6.1) Configuración en Render:
