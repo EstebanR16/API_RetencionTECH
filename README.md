@@ -116,6 +116,7 @@ Este es un ejemplo de los datos en general en un ***Histograma***
   *  Mes_mayor_abandono,
   *  Porcentaje_Retencion_Abandono.  
 
+
 ## 3.- Desarrollo de API
 Disponibilizamos los datos de la empresa usando el framework FastAPI + Render.
 En donde podremos realizar diversas consultas, pero antes de eso debemos realziar algunos pasos para que sea mas eficiente y rápido el desarrollo de esta.
@@ -138,7 +139,7 @@ Pasos para poder correr la FastAPI:
 
         deactivate 
 
-### 3.2) Archivos necesarios del repositorio (Git Bash)
+### 3.2) Archivos necesarios del repositorio (GitHub)
 
 + Creacion de archivos
 ```
@@ -156,11 +157,11 @@ Vamos a poner el nombre del entorno virtual que creamos anteriormente en el arch
 /nombre_entorno/
 ```
 > [!Tip]
-> Se abre el archivo ***.gitignore*** con cualquier editor de textos y guardar manualmente
+> Se abre el archivo con cualquier editor de textos y guardar manualmente
 
-### 3.4) Inizializar Git (cmd o terminal VSCode)
+### 3.4) Inizializar Git (desde terminal VSCode)
 
-La ruta en donde se crearon los archivos (al mismo nivel de la carpeta del venv) es la misma que en donde esta el archivo ***main.py***
+La ruta en donde se crearon los archivos (en la consola de Git bash) es la misma que en donde esta el archivo ***main.py***
 ```
 git init
 pip install uvicorn
@@ -183,22 +184,23 @@ Si ya has creado tu entorno virtual, actívalo utilizando el comando correspondi
   > En Windows:
   
     ```
-    API_Recomendacion\Scripts\activate
+    API_Ret\Scripts\activate
     ```
         
   > En sistemas basados en Unix:
   
   ```
-    source API_Recomendacion\bin\activate
+  source API_Ret\bin\activate
   ``` 
 + Se instala FastAPI
 
         pip install "fastapi[all]"
+        pip install (Todas las librerias que se ocupen)
 > [!Tip]
 > Aquí tambien vamos a poder cargar todas las paqueterias que sean necesarias para que funcione nuestro archivo **main.py**, con el comando:
 >     ```pip install nombre_paqueteria```
 
-+ Descarga de librerias (dentro del mismo ENV)
++ Descarga de librerias
 
 Una vez que ya están todas las librerías descargadas en nuestro entorno virtual, podemos hacer el freeze de los requirements, para generar un archivo requirements.txt basado en las bibliotecas instaladas actualmente en tu entorno virtual.
 
@@ -225,23 +227,21 @@ Inicializar el servidor de FasAPI.
 > Esta es la estructura general del archivo ***main.py***
 
 ```python
-    from API_Transform import PlayTimeGenre, UserForGenre, UsersRecommend, UsersWorstDeveloper, Sentiment_analysis
-    from fastapi import FastAPI
-    
-    app_recomendacion = FastAPI()
-    
-    # Importacion de funciones: 
-    
-    @app_recomendacion.get("/")
-    def read_root():
-        return {"message": "¡Bienvenido a la API de Recomendaciones!"}
-    
-    @app_recomendacion.get("/playtime-genre/{genero}")
-    def read_playtime_genre(genero: str):
-        result = PlayTimeGenre(genero)
-        return {"result": result}
+from fastapi import FastAPI
+from API_Retencion import Clientes_por_Mes, Mes_mayorClientes, Mes_mayor_abandono, Porcentaje_Retencion_Abandono
+
+app_retencion = FastAPI()
+
+@app_retencion.get("/")
+def read_root():
+    return {"message": "¡Bienvenido a la API de Recomendaciones!"}
+
+@app_retencion.get("/clientes-mes/{mes}")
+def obtener_clientes_por_mes(mes: str):
+    result = Clientes_por_Mes(mes)
+    return {"result": result}
 ```
-> Tenemos un archivo llamado "API_Transform.py" el cual contiene verdaderamente toda la logica de nuestras funciones de consulta de la API
+> Tenemos un archivo llamado "API_Retencion.py" el cual contiene verdaderamente toda la lógica de nuestras funciones de consulta de la API
 
 
   
@@ -262,6 +262,15 @@ Después de realizar cambios, utiliza los siguientes comandos para agregar y con
 
         git add .
         git commit -m "Descripción de los cambios"
+
+Realizar una configuración cuando es la primera vez que se hace el commit.
+
+        git config --global user.email "est1696@hotmail.com"
+
+        git config --global user.email "EstebanR16"
+
+        git remote add origin https://github.com/EstebanR16/API_RetencionTech.git
+
         
 ## 5.- GitHub
 
@@ -311,3 +320,4 @@ Realiza un despliegue manual desde la interfaz de Render o espera a que Render l
 Accede a la URL proporcionada por Render para verificar que tu aplicación FastAPI está funcionando correctamente en producción.
 
 Nos va a direccionar a nuestra API. Si les aparece un "Not found", no se preocupen, agreguenle un /docs a su enlace.
+
