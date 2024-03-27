@@ -7,10 +7,11 @@ app_retencion = FastAPI()
 
 @app_retencion.get("/")
 def read_root():
-    return {"message": "¡Bienvenido a la API de Retención!"}
+    return {"¡Bienvenido a la API de Retención de clientes TECH!"}
 
 @app_retencion.get("/clientes-mes/")
 def obtener_clientes_por_mes(mes: str):
+    print("Obtención de clientes por mes")
     result = Clientes_por_Mes(mes)
     return {"result": result}
 
@@ -18,6 +19,7 @@ def obtener_clientes_por_mes(mes: str):
 def obtener_mes_mayor_clientes():
     result = Mes_mayorClientes(data)
     return {"result": result}
+
 
 @app_retencion.get("/mes-mayor-abandono")
 def obtener_mes_mayor_abandono():

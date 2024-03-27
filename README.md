@@ -353,7 +353,7 @@ Realiza un despliegue manual desde la interfaz de Render o espera a que Render l
 
 Accede a la URL proporcionada por Render para verificar que tu aplicación FastAPI está funcionando correctamente en producción.
 
-https://api-retenciontech.onrender.com/
+https://api-retenciontech.onrender.com/docs
 
 Nos va a direccionar a nuestra API. Si les aparece un "Not found", no se preocupen, agreguenle un /docs a su enlace.
 
