@@ -9,12 +9,8 @@ data2=pd.read_csv("retencion-por-trimestre.csv")
 data['Estado Cliente']= data['Estado Cliente'].astype('category')
 
 # Convertimos la columna 'Mes de Abandono (Churn)' y 'Mes Registro' en un formato de fecha
-data['Mes de Abandono (Churn)'] = pd.to_datetime(data['Mes de Abandono (Churn)'])
-data['Mes Registro'] = pd.to_datetime(data['Mes Registro'])
-
-# Truncar las columnas al mes --> y se vuelve a convertir los datos a tipo object
-data['Mes de Abandono (Churn)'] = data['Mes de Abandono (Churn)'].dt.strftime('%Y-%m')
-data['Mes Registro'] = data['Mes Registro'].dt.strftime('%Y-%m')
+data['Mes de Abandono (Churn)'] = pd.to_datetime(data['Mes de Abandono (Churn)'], format='%m/%Y')
+data['Mes Registro'] = pd.to_datetime(data['Mes Registro'], format='%m/%Y')
 
 
 def Clientes_por_Mes(mes: str):
@@ -29,9 +25,9 @@ def Clientes_por_Mes(mes: str):
         if not data_filtered.empty:
             # Realiza una función de agregación para el mes especificado
             numero_clientes = data_filtered.sum()
-            return {"El número de clientes para el mes {} es:".format(mes): numero_clientes}
+            result = {"El número de clientes para el mes {} es:".format(mes): numero_clientes}
         else:
-            return {"El número de clientes para el mes {} es:".format(mes): 0}  # Si no hay clientes, el número es cero
+            result = {"El número de clientes para el mes {} es:".format(mes): 0}  # Si no hay clientes, el número es cero
     
     except KeyError as e:
         # Si hay un error de clave (KeyError), proporciona mensajes de error
@@ -43,13 +39,17 @@ def Clientes_por_Mes(mes: str):
             fecha_minima_truncada = fecha_minima.strftime('%Y-%m')
             fecha_maxima_truncada = fecha_maxima.strftime('%Y-%m')
 
-            return {
+            result = {
                 "error": f"La columna '{mes}' no es válida. Por favor, asegúrate de ingresar el nombre correcto de la columna.",
                 "formato_fechas": f"El formato de las fechas es: M/YYYY. Los registros comienzan en {fecha_minima_truncada} y terminan en {fecha_maxima_truncada}."
             }
         
         else:
-            return {"error": f"La columna '{mes}' no es válida. Además, las columnas de fecha necesarias no están presentes en el DataFrame."}        
+            result = {"error": f"La columna '{mes}' no es válida. Además, las columnas de fecha necesarias no están presentes en el DataFrame."}        
+    
+    return result
+
+
 
 def Mes_mayorClientes(data):
     # Obtener el total de clientes nuevos por mes de registro
@@ -59,10 +59,12 @@ def Mes_mayorClientes(data):
     mes_mas_clientes = clientes_por_mes.idxmax()  # Obtiene el índice (mes) con el máximo valor
     num_clientes = clientes_por_mes.max()  # Obtiene el valor máximo (número de clientes)
 
-    return {
+    result = {
         "Mes con mayor número de nuevos clientes": mes_mas_clientes,
         "Número de nuevos clientes en el mes": num_clientes
     }
+    return result
+
 
 def Mes_mayor_abandono(data):
     # Obtener el total de clientes que abandonaron por mes
@@ -72,10 +74,12 @@ def Mes_mayor_abandono(data):
     mes_mas_abandono = clientes_abandono_por_mes.idxmax()  # Obtiene el índice (mes) con el máximo valor
     num_clientes_abandono = clientes_abandono_por_mes.max()  # Obtiene el valor máximo (número de clientes que abandonaron)
 
-    return {
+    result = {
         "Mes con mayor número de clientes que abandonaron": mes_mas_abandono,
         "Número de clientes que abandonaron en el mes": num_clientes_abandono
     }
+    return result
+
 
 def Mes_Mayor_Porcentaje_Retencion(data, mes:str):
     # Cuenta el número de clientes por mes de inicio
@@ -96,11 +100,12 @@ def Mes_Mayor_Porcentaje_Retencion(data, mes:str):
     # Calcular el porcentaje de retención para el mes dado
     porcentaje_retencion_mes = (((nuevos_clientes_hasta_mes - abandonos_hasta_mes) / len(data)) - 1) * -100
 
-    return {
+    result = {
         "Mes": mes,
         "Porcentaje de retención para el mes dado": porcentaje_retencion_mes
-
     }
+    return result
+
 
 def Mes_Mayor_Porcentaje_Retencion_Total(data):
     # Diccionario para almacenar los porcentajes de retención para cada mes
@@ -118,10 +123,12 @@ def Mes_Mayor_Porcentaje_Retencion_Total(data):
     mes_mayor_retencion = max(porcentajes_retencion, key=porcentajes_retencion.get)
     mayor_porcentaje_retencion = porcentajes_retencion[mes_mayor_retencion]
 
-    return {
+    result = {
         "Mes con mayor porcentaje de retención": mes_mayor_retencion,
         "Mayor porcentaje de retención": mayor_porcentaje_retencion
     }
+    return result
+
 
 def Mes_Mayor_Porcentaje_Abandono(data, mes):
     # Calcular el porcentaje de retención para el mes dado
@@ -132,10 +139,11 @@ def Mes_Mayor_Porcentaje_Abandono(data, mes):
     #Aplicando las bases estadisticas de Q=1-P
     porcentaje_abandono_mes = (1- (porcentaje_retencion_mes/100)) * 100
 
-    return {
+    result = {
         "Mes": mes,
         "Porcentaje de abandono para el mes dado": porcentaje_abandono_mes
     }
+    return result
 
 '''def Mes_Mayor_Porcentaje_Abandono_Total(data):
     # Diccionario para almacenar los porcentajes de abandono para cada mes

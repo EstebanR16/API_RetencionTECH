@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from API_Retencion import (Clientes_por_Mes, Mes_mayorClientes, Mes_mayor_abandono, 
-                           Mes_Mayor_Porcentaje_Retencion,
-                           Mes_Mayor_Porcentaje_Abandono, Mes_Mayor_Porcentaje_Retencion_Total)
+                           Mes_Mayor_Porcentaje_Retencion, Mes_Mayor_Porcentaje_Abandono, 
+                           Mes_Mayor_Porcentaje_Retencion_Total, data)
 
 app_retencion = FastAPI()
 
@@ -9,7 +9,7 @@ app_retencion = FastAPI()
 def read_root():
     return {"message": "¡Bienvenido a la API de Retención!"}
 
-@app_retencion.get("/clientes-mes/{mes}")
+@app_retencion.get("/clientes-mes/")
 def obtener_clientes_por_mes(mes: str):
     result = Clientes_por_Mes(mes)
     return {"result": result}
@@ -38,4 +38,5 @@ def obtener_porcentaje_retencion_total():
 def obtener_porcentaje_abandono_mes(mes: str):
     result = Mes_Mayor_Porcentaje_Abandono(data, mes)
     return {"result": result}
+
 

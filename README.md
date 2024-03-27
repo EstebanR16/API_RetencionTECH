@@ -99,8 +99,9 @@ data['Estado Cliente']= data['Estado Cliente'].astype('category')
 
 ```  python
 # Convertimos la columna 'Mes de Abandono (Churn)' y 'Mes Registro' en un formato de fecha
-data['Mes de Abandono (Churn)'] = pd.to_datetime(data['Mes de Abandono (Churn)'])
-data['Mes Registro'] = pd.to_datetime(data['Mes Registro'])
+
+data['Mes de Abandono (Churn)'] = pd.to_datetime(data['Mes de Abandono (Churn)'], format='%m/%Y')
+data['Mes Registro'] = pd.to_datetime(data['Mes Registro'], format='%m/%Y')
 
 ```
 
@@ -228,15 +229,17 @@ Inicializar el servidor de FasAPI.
 
 ```python
 from fastapi import FastAPI
-from API_Retencion import Clientes_por_Mes, Mes_mayorClientes, Mes_mayor_abandono, Porcentaje_Retencion_Abandono
+from API_Retencion import (Clientes_por_Mes, Mes_mayorClientes, Mes_mayor_abandono, 
+                           Mes_Mayor_Porcentaje_Retencion, Mes_Mayor_Porcentaje_Abandono, 
+                           Mes_Mayor_Porcentaje_Retencion_Total, data)
 
 app_retencion = FastAPI()
 
 @app_retencion.get("/")
 def read_root():
-    return {"message": "¡Bienvenido a la API de Recomendaciones!"}
+    return {"message": "¡Bienvenido a la API de Retención!"}
 
-@app_retencion.get("/clientes-mes/{mes}")
+@app_retencion.get("/clientes-mes/")
 def obtener_clientes_por_mes(mes: str):
     result = Clientes_por_Mes(mes)
     return {"result": result}
@@ -310,31 +313,33 @@ Posteriormente, cada que se realice un cambio en los archivos locales se debe re
 
 ### 6.1) Configuración en Render:
 
-Entrar en render.com y crearse una nueva cuenta de usuario.
+* Entrar en render.com y crearse una nueva cuenta de usuario.
 
-Elegir la opción Web Service
+* Elegir la opción Web Service
 
-Ir al apartado que se encuentra abajo de Public Git repository. 
+* Ir al apartado que se encuentra abajo de Public Git repository. 
 
-Copiar y pegar el enlace del repositorio que crearon anteriormente (recuerden que sea público).
+* Copiar y pegar el enlace del repositorio que crearon anteriormente (recuerden que sea público). Para este caso:
 
-Accede a tu cuenta en Render y crea un nuevo servicio.
+https://github.com/EstebanR16/API_RetencionTech.git
 
-Configura el servicio para que apunte a tu repositorio de GitHub y especifique el archivo main.py como punto de entrada.
+* Accede a tu cuenta en Render y crea un nuevo servicio.
+
+* Configura el servicio para que apunte a tu repositorio de GitHub y especifique el archivo main.py como punto de entrada.
 
         pip install -r requirements.txt
 
 ### 6.2) Entorno Virtual en Render:
 
-Asegúrate de que Render ejecute los comandos necesarios para activar tu entorno virtual y ejecutar tu aplicación. 
+* Asegúrate de que Render ejecute los comandos necesarios para activar tu entorno virtual y ejecutar tu aplicación. 
 
-El resto de los campos se deben llenar con la misma información que en la imagen:
+* El resto de los campos se deben llenar con la misma información que en la imagen:
 
-Esto podría ser algo así como:
+* Esto podría ser algo así como:
 
     uvicorn main:app_retencion --host 0.0.0.0 --port $PORT
 
-Seleccionar la opción Create Web Service
+* Seleccionar la opción Create Web Service
 
 ## 7.- Despliegue
 
@@ -342,9 +347,13 @@ Seleccionar la opción Create Web Service
 
 Realiza un despliegue manual desde la interfaz de Render o espera a que Render lo haga automáticamente cuando detecte cambios en tu repositorio.
 
+
+
 ### 7.2) Verificación:
 
 Accede a la URL proporcionada por Render para verificar que tu aplicación FastAPI está funcionando correctamente en producción.
+
+https://api-retenciontech.onrender.com/
 
 Nos va a direccionar a nuestra API. Si les aparece un "Not found", no se preocupen, agreguenle un /docs a su enlace.
 
